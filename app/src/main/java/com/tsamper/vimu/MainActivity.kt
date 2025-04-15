@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         login.setOnClickListener {
             var loginRequest = LoginRequest(usuario.text.toString(), password.text.toString())
             Log.d("eee", "INICIO")
-            val apiService = RetrofitClient.getApiService("http://192.168.4.138:8080")
+            val apiService = RetrofitClient.getApiService()
             apiService.login(loginRequest).enqueue(object : Callback<Usuario> {
                 @SuppressLint("NotifyDataSetChanged")
                 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)

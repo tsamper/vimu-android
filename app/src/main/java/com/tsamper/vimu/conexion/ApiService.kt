@@ -26,7 +26,7 @@ interface ApiService {
 
     //Llamadas Conciertos
     @GET("conciertos")
-    fun obtenerConciertos(): Call<List<Concierto>>
+    fun obtenerConciertos(): Call<ArrayList<Concierto>>
 
     //Llamadas Entradas
 

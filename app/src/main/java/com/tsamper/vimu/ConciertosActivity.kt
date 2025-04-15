@@ -1,13 +1,27 @@
 package com.tsamper.vimu
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.tsamper.vimu.conexion.RetrofitClient
+import com.tsamper.vimu.modelo.Concierto
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ConciertosActivity : AppCompatActivity() {
+
+    private lateinit var adapter: ConciertoAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,6 +32,34 @@ class ConciertosActivity : AppCompatActivity() {
             insets
         }
         val idUser = intent.getIntExtra("idUsuario", 0)
-        Log.d("ID", idUser.toString())
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        val conciertos: ArrayList<Concierto> = ArrayList()
+        val apiService = RetrofitClient.getApiService()
+        apiService.obtenerConciertos().enqueue(object : Callback<ArrayList<Concierto>> {
+            @SuppressLint("NotifyDataSetChanged")
+            @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            override fun onResponse(call: Call<ArrayList<Concierto>>, response: Response<ArrayList<Concierto>>) {
+                Log.d("API", "Accediendo llamada a la API")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        conciertos.addAll(it)
+                        Log.d("CONCIERTOS", conciertos.toString())
+                        recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2) // 2 columnas
+                        adapter = ConciertoAdapter(conciertos) { Log.d("CONCIERTO" , "click en concierto") }
+                        recyclerView.adapter = adapter
+                    }
+                } else {
+                    Log.d("API", "ERROR: " + response.message())
+                    //Toast.makeText(this@MainActivity, "Error: ${JSONObject(response.errorBody()?.string()).getString("description")}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Concierto>>, t: Throwable) {
+                Log.d("API", "Fallo llamada a la API: " + t.message)
+                Toast.makeText(this@ConciertosActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 }

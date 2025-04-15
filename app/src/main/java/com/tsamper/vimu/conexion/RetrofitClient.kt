@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
     companion object {
+
+        var baseUrl: String = "http://192.168.4.138:8080"
+
         private val client by lazy {
             val loggingInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -30,7 +33,7 @@ class RetrofitClient {
                 .build()
         }
 
-        fun getApiService(baseUrl: String): ApiService {
+        fun getApiService(): ApiService {
             return Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(client) // Reutiliza el mismo cliente para optimizar

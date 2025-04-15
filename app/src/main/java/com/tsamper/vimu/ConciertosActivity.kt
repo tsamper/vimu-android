@@ -1,6 +1,7 @@
 package com.tsamper.vimu
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +17,7 @@ class ConciertosActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val idUser = intent.getIntExtra("idUsuario", 0)
+        Log.d("ID", idUser.toString())
     }
 }

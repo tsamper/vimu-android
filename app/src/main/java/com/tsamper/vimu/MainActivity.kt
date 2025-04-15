@@ -16,6 +16,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.tsamper.vimu.conexion.RetrofitClient
 import com.tsamper.vimu.modelo.Ejemplo
+import com.tsamper.vimu.modelo.LoginRequest
+import com.tsamper.vimu.modelo.Usuario
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,22 +36,29 @@ class MainActivity : AppCompatActivity() {
         val password: EditText = findViewById(R.id.password)
         val registro: TextView = findViewById(R.id.registro)
         val login: Button = findViewById(R.id.iniciarBtn)
+        var idUser: Int = 0
         registro.setOnClickListener {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
         login.setOnClickListener {
+            var loginRequest = LoginRequest(usuario.text.toString(), password.text.toString())
             Log.d("eee", "INICIO")
             val apiService = RetrofitClient.getApiService("http://192.168.4.138:8080")
-            apiService.ejemplo().enqueue(object : Callback<Ejemplo> {
+            apiService.login(loginRequest).enqueue(object : Callback<Usuario> {
                 @SuppressLint("NotifyDataSetChanged")
                 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-                override fun onResponse(call: Call<Ejemplo>, response: Response<Ejemplo>) {
+                override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
                     Log.d("API", "Accediendo llamada a la API")
                     if (response.isSuccessful) {
                         response.body()?.let {
                             Log.d("API", "Cuerpo de la respuesta: ${response.body()}")
                             Log.d("API", "" + it)
+                            idUser = it.id
+                            val intent = Intent(this@MainActivity, ConciertosActivity::class.java).apply {
+                                putExtra("idUsuario", idUser)
+                            }
+                            startActivity(intent)
                         }
                     } else {
                         Log.d("API", "ERROR: " + response.code())
@@ -57,15 +66,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<Ejemplo>, t: Throwable) {
+                override fun onFailure(call: Call<Usuario>, t: Throwable) {
                     Log.d("API", "Fallo llamada a la API: " + t.message)
                     Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-            val intent = Intent(this, ConciertosActivity::class.java).apply {
-                putExtra("idUsuario", 1)
-            }
-            startActivity(intent)
+
         }
     }
 }

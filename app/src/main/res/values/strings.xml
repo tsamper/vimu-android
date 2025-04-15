@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Vimu</string>
+    <string name="registro">¿No tienes cuenta? Registrate</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="contrasenya">Contraseña</string>
+    <string name="usuario">Usuario</string>
+    <string name="confirma_contrasenya">Confirma contraseña</string>
+    <string name="email">Email</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="registrar">Registrar</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.tsamper.vimu.conexion
 
 
+import com.tsamper.vimu.modelo.Concierto
 import com.tsamper.vimu.modelo.Ejemplo
 import com.tsamper.vimu.modelo.LoginRequest
 import com.tsamper.vimu.modelo.Usuario
@@ -17,6 +18,22 @@ interface ApiService {
     //@Headers("Accept: application/json")
     @GET("demo")
     fun ejemplo(): Call<Ejemplo>
+    //Llamadas Usuarios
     @POST("usuarios/buscar")
     fun login(@Body login: LoginRequest): Call<Usuario>
+
+    //Llamadas Canciones
+
+    //Llamadas Conciertos
+    @GET("conciertos")
+    fun obtenerConciertos(): Call<List<Concierto>>
+
+    //Llamadas Entradas
+
+    //Llamadas Grupos
+
+    //LLamadas Opiniones
+
+    //Lamadas Recintos
+
 }

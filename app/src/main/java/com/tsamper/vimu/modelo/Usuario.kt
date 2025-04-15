@@ -6,5 +6,6 @@ data class Usuario(
     val password: String = "",
     val email: String = "",
     val nomUsuario: String = "",
-    val contrasenya: String = ""
+    val contrasenya: String = "",
+    val grupoUsuarios: GrupoUsuarios? = null
 )

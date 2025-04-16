@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -31,6 +32,7 @@ class DatosConciertoActivity : AppCompatActivity() {
             insets
         }
         val idConcierto = intent.getIntExtra("idConcierto", 0)
+        var tituloConcierto: TextView = findViewById(R.id.tituloConcierto)
         val apiService = RetrofitClient.getApiService()
         apiService.obtenerConciertoPorId(idConcierto).enqueue(object : Callback<Concierto> {
             @SuppressLint("NotifyDataSetChanged")
@@ -39,7 +41,7 @@ class DatosConciertoActivity : AppCompatActivity() {
                 Log.d("API", "Accediendo llamada a la API")
                 if (response.isSuccessful) {
                     response.body()?.let {
-
+                        tituloConcierto.setText(it.nombre)
                     }
                 } else {
                     Log.d("API", "ERROR: " + response.message())

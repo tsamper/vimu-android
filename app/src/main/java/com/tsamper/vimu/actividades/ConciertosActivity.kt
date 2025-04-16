@@ -1,6 +1,7 @@
-package com.tsamper.vimu
+package com.tsamper.vimu.actividades
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tsamper.vimu.adaptadores.ConciertoAdapter
+import com.tsamper.vimu.R
 import com.tsamper.vimu.conexion.RetrofitClient
 import com.tsamper.vimu.modelo.Concierto
 import retrofit2.Call
@@ -44,13 +47,17 @@ class ConciertosActivity : AppCompatActivity() {
                     response.body()?.let {
                         conciertos.addAll(it)
                         Log.d("CONCIERTOS", conciertos.toString())
-                        recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2) // 2 columnas
-                        adapter = ConciertoAdapter(conciertos) { Log.d("CONCIERTO" , "click en concierto") }
+                        recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2)
+                        adapter = ConciertoAdapter(conciertos) { concierto ->
+                            val intent = Intent(this@ConciertosActivity, DatosConciertoActivity::class.java).apply {
+                               putExtra("idConcierto", concierto.id)
+                            }
+                            startActivity(intent)
+                        }
                         recyclerView.adapter = adapter
                     }
                 } else {
                     Log.d("API", "ERROR: " + response.message())
-                    //Toast.makeText(this@MainActivity, "Error: ${JSONObject(response.errorBody()?.string()).getString("description")}", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -9,21 +9,34 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Vimu"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ConciertosActivity"
+            android:name=".actividades.GrupoActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistroActivity"
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".actividades.PerfilActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".actividades.DatosConciertoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividades.ConciertosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividades.RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividades.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

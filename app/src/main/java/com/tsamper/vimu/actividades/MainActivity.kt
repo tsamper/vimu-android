@@ -1,4 +1,4 @@
-package com.tsamper.vimu
+package com.tsamper.vimu.actividades
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,8 +14,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.tsamper.vimu.R
 import com.tsamper.vimu.conexion.RetrofitClient
-import com.tsamper.vimu.modelo.Ejemplo
 import com.tsamper.vimu.modelo.LoginRequest
 import com.tsamper.vimu.modelo.Usuario
 import retrofit2.Call

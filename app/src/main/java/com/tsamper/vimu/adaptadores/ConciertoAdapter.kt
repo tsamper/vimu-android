@@ -1,14 +1,15 @@
-package com.tsamper.vimu
+package com.tsamper.vimu.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.tsamper.vimu.R
 import com.tsamper.vimu.modelo.Concierto
 
 class ConciertoAdapter(
-    private val itemList: List<Concierto>,
+    private val conciertoList: List<Concierto>,
     private val onItemClick: (Concierto) -> Unit
 ) : RecyclerView.Adapter<ConciertoAdapter.ItemViewHolder>() {
 
@@ -18,9 +19,9 @@ class ConciertoAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = itemList[position]
-        holder.codigoText.text = "Servicio: "
-        holder.codVehiculoText.text = "Matrícula: "
+        val item = conciertoList[position]
+        holder.nombreText.text = item.nombre
+        holder.fechaText.text = item.fecha
 
 
         holder.itemView.setOnClickListener {
@@ -28,10 +29,10 @@ class ConciertoAdapter(
         }
     }
 
-    override fun getItemCount(): Int = itemList.size
+    override fun getItemCount(): Int = conciertoList.size
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val codigoText: TextView = itemView.findViewById(R.id.codigoText)
-        val codVehiculoText: TextView = itemView.findViewById(R.id.codVehiculoText)
+        val nombreText: TextView = itemView.findViewById(R.id.nombreText)
+        val fechaText: TextView = itemView.findViewById(R.id.fechaText)
     }
 }

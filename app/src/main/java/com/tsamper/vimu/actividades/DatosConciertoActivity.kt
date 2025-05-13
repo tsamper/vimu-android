@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.tsamper.vimu.R
+import com.tsamper.vimu.VariablesGlobales
 import com.tsamper.vimu.adaptadores.ConciertoAdapter
 import com.tsamper.vimu.conexion.RetrofitClient
 import com.tsamper.vimu.modelo.Concierto
@@ -33,6 +36,12 @@ class DatosConciertoActivity : AppCompatActivity() {
         }
         val idConcierto = intent.getIntExtra("idConcierto", 0)
         var tituloConcierto: TextView = findViewById(R.id.tituloConcierto)
+        var grupo: TextView = findViewById(R.id.grupoText)
+        var fecha: TextView = findViewById(R.id.fechaText)
+        var hora: TextView = findViewById(R.id.horaText)
+        var recinto: TextView = findViewById(R.id.recintoText)
+        var ciudad: TextView = findViewById(R.id.ciudadText)
+        var imagen: ImageView = findViewById(R.id.conciertoImage)
         val apiService = RetrofitClient.getApiService()
         apiService.obtenerConciertoPorId(idConcierto).enqueue(object : Callback<Concierto> {
             @SuppressLint("NotifyDataSetChanged")
@@ -42,6 +51,16 @@ class DatosConciertoActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         tituloConcierto.setText(it.nombre)
+                        grupo.setText("🎤 ${it.grupo.nombre}")
+                        fecha.setText("📅 ${it.fecha}")
+                        hora.setText("⏰ ${it.hora}")
+                        recinto.setText("🏟️ ${it.recinto!!.nombre}")
+                        ciudad.setText("📍 ${it.recinto.ciudad}")
+                        val imagenUrl = VariablesGlobales.conexion + "/" + it.imagen // ejemplo: "img/carteles/Hoke_Murcia.jpg"
+
+                        Glide.with(this@DatosConciertoActivity)
+                            .load(imagenUrl)
+                            .into(imagen)
                     }
                 } else {
                     Log.d("API", "ERROR: " + response.message())

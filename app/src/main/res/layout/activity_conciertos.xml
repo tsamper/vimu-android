@@ -10,20 +10,20 @@
 
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="383dp"
+        android:layout_height="53dp"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/logoImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_launcher_foreground"
-            android:contentDescription="Logo" />
+            android:layout_width="157dp"
+            android:layout_height="53dp"
+            android:contentDescription="Logo"
+            android:src="@drawable/logo1" />
 
         <View
             android:layout_width="0dp"

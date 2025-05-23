@@ -1,6 +1,8 @@
 package com.tsamper.vimu.conexion
 
 
+
+import com.tsamper.vimu.VariablesGlobales
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,8 +12,6 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
     companion object {
-
-        var baseUrl: String = "http://192.168.4.138:8080"
 
         private val client by lazy {
             val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -35,7 +35,8 @@ class RetrofitClient {
 
         fun getApiService(): ApiService {
             return Retrofit.Builder()
-                .baseUrl(baseUrl)
+
+                .baseUrl(VariablesGlobales.conexion)
                 .client(client) // Reutiliza el mismo cliente para optimizar
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

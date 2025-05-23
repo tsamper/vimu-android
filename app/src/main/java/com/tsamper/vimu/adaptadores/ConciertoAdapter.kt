@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tsamper.vimu.R
+
+import com.tsamper.vimu.VariablesGlobales
 import com.tsamper.vimu.modelo.Concierto
 
 class ConciertoAdapter(
@@ -25,8 +27,10 @@ class ConciertoAdapter(
         holder.nombreText.text = item.nombre
         holder.fechaText.text = item.fecha
 
-        val baseUrl = "http://192.168.4.138:8080/" // Cambialo por tu IP local + puerto
-        val imagenUrl = baseUrl + item.imagen // ejemplo: "img/carteles/Hoke_Murcia.jpg"
+
+
+         // Cambialo por tu IP local + puerto
+        val imagenUrl = VariablesGlobales.conexion + "/" + item.imagen // ejemplo: "img/carteles/Hoke_Murcia.jpg"
 
         Glide.with(holder.itemView.context)
             .load(imagenUrl)

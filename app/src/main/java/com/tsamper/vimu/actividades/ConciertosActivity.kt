@@ -49,6 +49,9 @@ class ConciertosActivity : AppCompatActivity() {
                         Log.d("CONCIERTOS", conciertos.toString())
                         recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2)
                         adapter = ConciertoAdapter(conciertos) { concierto ->
+
+                            Log.d("ID_CONCIERTO", concierto.id.toString())
+
                             val intent = Intent(this@ConciertosActivity, DatosConciertoActivity::class.java).apply {
                                putExtra("idConcierto", concierto.id)
                             }

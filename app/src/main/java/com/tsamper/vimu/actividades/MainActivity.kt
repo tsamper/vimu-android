@@ -62,7 +62,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else {
                         Log.d("API", "ERROR: " + response.code())
-                        //Toast.makeText(this@MainActivity, "Error: ${JSONObject(response.errorBody()?.string()).getString("description")}", Toast.LENGTH_SHORT).show()
+
+                        Toast.makeText(this@MainActivity, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show()
+
                     }
                 }
 

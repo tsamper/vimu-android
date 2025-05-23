@@ -22,7 +22,8 @@ interface ApiService {
     //Llamadas Usuarios
     @POST("usuarios/buscar")
     fun login(@Body login: LoginRequest): Call<Usuario>
-
+    @POST("usuarios")
+    fun registrarUsuario(@Body usuario: Usuario): Call<Usuario>
     //Llamadas Canciones
 
     //Llamadas Conciertos

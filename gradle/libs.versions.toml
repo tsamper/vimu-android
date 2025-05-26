@@ -1,9 +1,5 @@
 [versions]
-<<<<<<< HEAD
-agp = "8.9.1"
-=======
 agp = "8.10.0"
->>>>>>> 7a6a8c7 (Editar login y registro)
 glideVersion = "4.16.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"

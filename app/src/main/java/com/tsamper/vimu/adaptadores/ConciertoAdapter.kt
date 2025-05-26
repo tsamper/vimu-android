@@ -13,7 +13,7 @@ import com.tsamper.vimu.VariablesGlobales
 import com.tsamper.vimu.modelo.Concierto
 
 class ConciertoAdapter(
-    private val conciertoList: List<Concierto>,
+    private val conciertoList: MutableList<Concierto>,
     private val onItemClick: (Concierto) -> Unit
 ) : RecyclerView.Adapter<ConciertoAdapter.ItemViewHolder>() {
 
@@ -27,15 +27,12 @@ class ConciertoAdapter(
         holder.nombreText.text = item.nombre
         holder.fechaText.text = item.fecha
 
-
-
-         // Cambialo por tu IP local + puerto
-        val imagenUrl = VariablesGlobales.conexion + "/" + item.imagen // ejemplo: "img/carteles/Hoke_Murcia.jpg"
+        val imagenUrl = VariablesGlobales.conexion + "/" + item.imagen
 
         Glide.with(holder.itemView.context)
             .load(imagenUrl)
-            //.placeholder(R.drawable.placeholder) // una imagen temporal mientras carga
-            //.error(R.drawable.error_image)       // por si falla la carga
+            //.placeholder(R.drawable.placeholder)
+            //.error(R.drawable.error_image)
             .into(holder.imagen)
 
         holder.itemView.setOnClickListener {
@@ -44,6 +41,12 @@ class ConciertoAdapter(
     }
 
     override fun getItemCount(): Int = conciertoList.size
+
+    fun actualizarConciertos(nuevos: List<Concierto>) {
+        conciertoList.clear()
+        conciertoList.addAll(nuevos)
+        notifyDataSetChanged()
+    }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nombreText: TextView = itemView.findViewById(R.id.nombreText)

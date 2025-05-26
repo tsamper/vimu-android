@@ -20,6 +20,8 @@ interface ApiService {
     @GET("demo")
     fun ejemplo(): Call<Ejemplo>
     //Llamadas Usuarios
+    @GET("usuarios/{id}")
+    fun obtenerUsuarioPorId(@Path("id") id: Int): Call<Usuario>
     @POST("usuarios/buscar")
     fun login(@Body login: LoginRequest): Call<Usuario>
     @POST("usuarios")
@@ -29,6 +31,8 @@ interface ApiService {
     //Llamadas Conciertos
     @GET("conciertos")
     fun obtenerConciertos(): Call<ArrayList<Concierto>>
+    @GET("conciertos/filtro")
+    fun buscarConciertos(@Query("filtro") filtro: String, @Query("campo") campo: String): Call<ArrayList<Concierto>>
     @GET("conciertos/{id}")
     fun obtenerConciertoPorId(@Path("id") id: Int): Call<Concierto>
     //Llamadas Entradas

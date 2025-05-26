@@ -5,6 +5,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -35,9 +40,24 @@ class ConciertosActivity : AppCompatActivity() {
             insets
         }
         val idUser = intent.getIntExtra("idUsuario", 0)
+        val perfilButton: ImageButton = findViewById(R.id.profileButton)
+        perfilButton.setOnClickListener{
+            val intent = Intent(this@ConciertosActivity, PerfilActivity::class.java).apply {
+                putExtra("idUsuario", idUser)
+            }
+            startActivity(intent)
+        }
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val conciertos: ArrayList<Concierto> = ArrayList()
         val apiService = RetrofitClient.getApiService()
+        adapter = ConciertoAdapter(conciertos) { concierto ->
+            val intent = Intent(this@ConciertosActivity, DatosConciertoActivity::class.java).apply {
+                putExtra("idConcierto", concierto.id)
+            }
+            startActivity(intent)
+        }
+        recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2)
+        recyclerView.adapter = adapter
         apiService.obtenerConciertos().enqueue(object : Callback<ArrayList<Concierto>> {
             @SuppressLint("NotifyDataSetChanged")
             @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
@@ -45,19 +65,7 @@ class ConciertosActivity : AppCompatActivity() {
                 Log.d("API", "Accediendo llamada a la API")
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        conciertos.addAll(it)
-                        Log.d("CONCIERTOS", conciertos.toString())
-                        recyclerView.layoutManager = GridLayoutManager(this@ConciertosActivity, 2)
-                        adapter = ConciertoAdapter(conciertos) { concierto ->
-
-                            Log.d("ID_CONCIERTO", concierto.id.toString())
-
-                            val intent = Intent(this@ConciertosActivity, DatosConciertoActivity::class.java).apply {
-                               putExtra("idConcierto", concierto.id)
-                            }
-                            startActivity(intent)
-                        }
-                        recyclerView.adapter = adapter
+                        adapter.actualizarConciertos(it)
                     }
                 } else {
                     Log.d("API", "ERROR: " + response.message())
@@ -69,7 +77,42 @@ class ConciertosActivity : AppCompatActivity() {
                 Toast.makeText(this@ConciertosActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+        val buscarButton: Button = findViewById(R.id.searchButton)
+        val buscarInput: EditText = findViewById(R.id.searchInput)
+        val filtroSpinner: Spinner = findViewById(R.id.searchFilterSpinner)
+        // Opciones del desplegable
+        val filtros = arrayOf("Artista", "Ciudad")
+        val adapterSpinner = ArrayAdapter(this, android.R.layout.simple_spinner_item, filtros)
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        filtroSpinner.adapter = adapterSpinner
 
+        buscarButton.setOnClickListener{
+            var filtro = ""
+            if (filtroSpinner.selectedItem.toString().equals("Artista")) {
+                filtro = "Artista"
+            }else{
+                filtro = "Ciudad"
+            }
+            apiService.buscarConciertos(filtro, buscarInput.text.toString()).enqueue(object : Callback<ArrayList<Concierto>> {
+                @SuppressLint("NotifyDataSetChanged")
+                @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+                override fun onResponse(call: Call<ArrayList<Concierto>>, response: Response<ArrayList<Concierto>>) {
+                    Log.d("API", "Accediendo llamada a la API")
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            adapter.actualizarConciertos(it)
+                        }
+                    } else {
+                        Log.d("API", "ERROR: " + response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<ArrayList<Concierto>>, t: Throwable) {
+                    Log.d("API", "Fallo llamada a la API: " + t.message)
+                    Toast.makeText(this@ConciertosActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
 
     }
 }

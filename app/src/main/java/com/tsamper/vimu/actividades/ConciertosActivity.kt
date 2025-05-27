@@ -40,10 +40,12 @@ class ConciertosActivity : AppCompatActivity() {
             insets
         }
         val idUser = intent.getIntExtra("idUsuario", 0)
+        val tipoUser = intent.getStringExtra("tipoUsuario")
         val perfilButton: ImageButton = findViewById(R.id.profileButton)
         perfilButton.setOnClickListener{
             val intent = Intent(this@ConciertosActivity, PerfilActivity::class.java).apply {
                 putExtra("idUsuario", idUser)
+                putExtra("tipoUsuario", tipoUser)
             }
             startActivity(intent)
         }

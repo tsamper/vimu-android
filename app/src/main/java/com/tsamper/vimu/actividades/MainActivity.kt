@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                             idUser = it.id
                             val intent = Intent(this@MainActivity, ConciertosActivity::class.java).apply {
                                 putExtra("idUsuario", idUser)
+                                putExtra("tipoUsuario", it.grupoUsuarios?.tipo.toString() )
                             }
                             startActivity(intent)
                         }

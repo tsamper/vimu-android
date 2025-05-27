@@ -20,4 +20,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="comprar">Comprar</string>
     <string name="cerrar_sesi_n">Cerrar sesión</string>
+    <string name="mis_entradas">Mis entradas</string>
+    <string name="mis_favoritos">Mis favoritos</string>
 </resources>

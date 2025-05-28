@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
@@ -58,6 +59,9 @@ class DatosConciertoActivity : AppCompatActivity() {
         val recinto: TextView = findViewById(R.id.recintoText)
         val ciudad: TextView = findViewById(R.id.ciudadText)
         val imagen: ImageView = findViewById(R.id.conciertoImage)
+        val comprarEntradasTexto: TextView = findViewById(R.id.textView4)
+        val normalesTexto: TextView = findViewById(R.id.normalesTextView)
+        val vipTexto: TextView = findViewById(R.id.vipTextView)
         val spinnerNormales: Spinner = findViewById(R.id.spinnerNormales)
         val spinnerVips: Spinner = findViewById(R.id.spinnerVips)
         val apiService = RetrofitClient.getApiService()
@@ -75,7 +79,9 @@ class DatosConciertoActivity : AppCompatActivity() {
                         hora.setText("⏰ ${it.hora}")
                         recinto.setText("🏟️ ${it.recinto!!.nombre}")
                         ciudad.setText("📍 ${it.recinto.ciudad}")
-                        val imagenUrl = VariablesGlobales.conexion + "/" + it.imagen // ejemplo: "img/carteles/Hoke_Murcia.jpg"
+                        normalesTexto.setText("Entradas normales - Precio: ${it.precioEntradas}€")
+                        vipTexto.setText("Entradas VIP - Precio: ${it.precioEntradasVip}€")
+                        val imagenUrl = VariablesGlobales.conexion + "/" + it.imagen
 
                         Glide.with(this@DatosConciertoActivity)
                             .load(imagenUrl)
@@ -119,6 +125,14 @@ class DatosConciertoActivity : AppCompatActivity() {
                     Toast.makeText(this@DatosConciertoActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+        if (tipoUsuario != "USER"){
+            comprarEntradasTexto.visibility = View.GONE
+            normalesTexto.visibility = View.GONE
+            vipTexto.visibility = View.GONE
+            spinnerNormales.visibility = View.GONE
+            spinnerVips.visibility = View.GONE
+            enviarButtton.visibility = View.GONE
         }
     }
 

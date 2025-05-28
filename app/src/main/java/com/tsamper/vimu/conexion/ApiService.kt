@@ -3,6 +3,7 @@ package com.tsamper.vimu.conexion
 
 import com.tsamper.vimu.modelo.Concierto
 import com.tsamper.vimu.modelo.Ejemplo
+import com.tsamper.vimu.modelo.EntradaConcierto
 import com.tsamper.vimu.modelo.LoginRequest
 import com.tsamper.vimu.modelo.Usuario
 import okhttp3.ResponseBody
@@ -37,8 +38,11 @@ interface ApiService {
     fun obtenerConciertoPorId(@Path("id") id: Int): Call<Concierto>
     @POST("entradas")
     fun comprarEntradas(@Query("conciertoId") conciertoId: Int, @Query("user") userId: Int, @Query("cantidadSeleccionadaNormal") cantidadSeleccionadaNormal: Int, @Query("cantidadSeleccionadaVip") cantidadSeleccionadaVip: Int ): Call<Void>
+    @GET("conciertos/guardados")
+    fun obtenerConciertosGuardados(@Query("user") userId: Int): Call<ArrayList<Concierto>>
     //Llamadas Entradas
-
+    @GET("entradas")
+    fun obtenerEntradasUsuario(@Query("user") userId: Int): Call<Map<String, List<EntradaConcierto>>>
     //Llamadas Grupos
 
     //LLamadas Opiniones

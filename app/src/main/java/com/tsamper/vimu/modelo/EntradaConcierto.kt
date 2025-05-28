@@ -7,6 +7,6 @@ data class EntradaConcierto(
     val precio: Double = 0.0,
     val usuario: Usuario? = null,
     val tipo: String = "",
-    val fechaCompra: LocalDateTime? = null,
+    val fechaCompra: String? = "",
     val concierto: Concierto? = null
 )

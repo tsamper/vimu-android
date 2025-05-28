@@ -55,6 +55,8 @@ class ConciertosActivity : AppCompatActivity() {
         adapter = ConciertoAdapter(conciertos) { concierto ->
             val intent = Intent(this@ConciertosActivity, DatosConciertoActivity::class.java).apply {
                 putExtra("idConcierto", concierto.id)
+                putExtra("idUsuario", idUser)
+                putExtra("tipoUsuario", tipoUser)
             }
             startActivity(intent)
         }

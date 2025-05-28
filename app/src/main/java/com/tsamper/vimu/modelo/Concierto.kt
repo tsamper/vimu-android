@@ -16,6 +16,8 @@ data class Concierto (
     val cantidadEntradas: Int = 0,
     val cantidadEntradasVendidas: Int = 0,
     val precioEntradas: Int = 0,
-    val promotor: Usuario,
-    val grupo: Grupo
+    val promotor: Usuario = Usuario(),
+    val grupo: Grupo = Grupo()
     )
+
+

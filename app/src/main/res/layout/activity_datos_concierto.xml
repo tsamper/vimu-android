@@ -36,7 +36,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@null"
-            android:contentDescription="Perfil" />
+            android:contentDescription="Perfil"
+            android:src="@drawable/perfil" />
     </LinearLayout>
 
     <ImageView
@@ -115,6 +116,29 @@
             android:text="Ciudad: Murcia" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Comprar entradas"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoBox" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:text="Entradas normales"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoBox" />
 
     <Spinner
         android:id="@+id/spinnerNormales"
@@ -128,17 +152,6 @@
         app:layout_constraintTop_toBottomOf="@id/infoBox" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="44dp"
-        android:text="Entradas normales"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoBox" />
-
-    <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -146,19 +159,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="108dp"
         android:text="Entradas VIP"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoBox" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Comprar entradas"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/infoBox" />
 

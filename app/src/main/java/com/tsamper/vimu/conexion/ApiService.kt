@@ -35,6 +35,8 @@ interface ApiService {
     fun buscarConciertos(@Query("filtro") filtro: String, @Query("campo") campo: String): Call<ArrayList<Concierto>>
     @GET("conciertos/{id}")
     fun obtenerConciertoPorId(@Path("id") id: Int): Call<Concierto>
+    @POST("entradas")
+    fun comprarEntradas(@Query("conciertoId") conciertoId: Int, @Query("user") userId: Int, @Query("cantidadSeleccionadaNormal") cantidadSeleccionadaNormal: Int, @Query("cantidadSeleccionadaVip") cantidadSeleccionadaVip: Int ): Call<Void>
     //Llamadas Entradas
 
     //Llamadas Grupos

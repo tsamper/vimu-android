@@ -81,8 +81,17 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:id="@+id/grupoText"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:text="Artista: Hoke" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:id="@+id/recintoText"
+            android:textSize="20sp"
+            android:text="Recinto: Garaje Beat Club" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,14 +107,6 @@
             android:id="@+id/horaText"
             android:textSize="16sp"
             android:text="Hora: 22:30" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:id="@+id/recintoText"
-            android:textSize="16sp"
-            android:text="Recinto: Garaje Beat Club" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -173,17 +174,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinnerNormales" />
 
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="150dp"
-        android:textColor="@color/black"
+    <LinearLayout
+        android:id="@+id/btnContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/secondary"
-        android:text="@string/comprar"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnFavorito"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/secondary"
+            android:text="@string/guardar"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/secondary"
+            android:text="@string/comprar"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,4 +22,6 @@
     <string name="cerrar_sesi_n">Cerrar sesión</string>
     <string name="mis_entradas">Mis entradas</string>
     <string name="mis_favoritos">Mis favoritos</string>
+    <string name="guardar">Guardar</string>
+    <string name="rese_ar">Reseñar</string>
 </resources>

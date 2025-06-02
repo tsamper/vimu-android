@@ -18,7 +18,7 @@ class ConciertoAdapter(
 ) : RecyclerView.Adapter<ConciertoAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_concierto_adapter, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_concierto_adapter, parent, false)
         return ItemViewHolder(view)
     }
 

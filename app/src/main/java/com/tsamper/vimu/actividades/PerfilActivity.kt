@@ -23,6 +23,7 @@ import com.tsamper.vimu.R
 import com.tsamper.vimu.VariablesGlobales
 import com.tsamper.vimu.adaptadores.ConciertoAdapter
 import com.tsamper.vimu.adaptadores.EntradaConciertoAdapter
+import com.tsamper.vimu.adaptadores.OpinionAdapter
 import com.tsamper.vimu.conexion.RetrofitClient
 import com.tsamper.vimu.modelo.Concierto
 import com.tsamper.vimu.modelo.EntradaConcierto
@@ -35,6 +36,7 @@ import retrofit2.Response
 
 class PerfilActivity : AppCompatActivity() {
     private lateinit var adapter: ConciertoAdapter
+    private lateinit var adapterOpinion: OpinionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,7 @@ class PerfilActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.perfilTabLayout)
         val entradasRV = findViewById<RecyclerView>(R.id.entradasRecyclerView)
         val favoritosRV = findViewById<RecyclerView>(R.id.favoritosRecyclerView)
+        val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
         val apiService = RetrofitClient.getApiService()
 
         entradasRV.layoutManager = LinearLayoutManager(this)
@@ -70,6 +73,10 @@ class PerfilActivity : AppCompatActivity() {
             startActivity(intent)
         }
         favoritosRV.adapter = adapter
+        var opiniones: List<Concierto> = ArrayList()
+        opinionesRV.layoutManager = LinearLayoutManager(this)
+        adapterOpinion = OpinionAdapter(emptyList(), this)
+        opinionesRV.adapter = adapterOpinion
         apiService.obtenerEntradasUsuario(idUser).enqueue(object : Callback<Map<String, List<EntradaConcierto>>> {
             override fun onResponse(
                 call: Call<Map<String, List<EntradaConcierto>>>,
@@ -108,10 +115,32 @@ class PerfilActivity : AppCompatActivity() {
                 Toast.makeText(this@PerfilActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+        apiService.obtenerConciertosAnteriores(idUser).enqueue(object : Callback<Map<String, List<Concierto>>> {
+            override fun onResponse(
+                call: Call<Map<String, List<Concierto>>>,
+                response: Response<Map<String, List<Concierto>>>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    val map = response.body()!!
+
+                    // Tomamos solo el primer concierto de cada grupo
+                    opiniones = map.values.mapNotNull { it.firstOrNull() }
+                    adapterOpinion.actualizarConciertos(opiniones)
+                } else {
+                    Toast.makeText(this@PerfilActivity, "Error al obtener conciertos anteriores", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Map<String, List<Concierto>>>, t: Throwable) {
+                Toast.makeText(this@PerfilActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
         // Añade las pestañas
         if (tipoUser == "USER") {
             tabLayout.addTab(tabLayout.newTab().setText("Entradas"))
             tabLayout.addTab(tabLayout.newTab().setText("Favoritos"))
+            tabLayout.addTab(tabLayout.newTab().setText("Opiniones"))
+
 
             // Manejador de selección de pestañas
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -120,11 +149,18 @@ class PerfilActivity : AppCompatActivity() {
                         0 -> {
                             entradasRV.visibility = View.VISIBLE
                             favoritosRV.visibility = View.GONE
+                            opinionesRV.visibility = View.GONE
                         }
 
                         1 -> {
                             entradasRV.visibility = View.GONE
                             favoritosRV.visibility = View.VISIBLE
+                            opinionesRV.visibility = View.GONE
+                        }
+                        2 -> {
+                            entradasRV.visibility = View.GONE
+                            favoritosRV.visibility = View.GONE
+                            opinionesRV.visibility = View.VISIBLE
                         }
                     }
                 }

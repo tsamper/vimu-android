@@ -41,6 +41,7 @@ class DatosConciertoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var concierto = Concierto()
         val idConcierto = intent.getIntExtra("idConcierto", 0)
         val idUsuario = intent.getIntExtra("idUsuario", 0)
         val tipoUsuario = intent.getStringExtra("tipoUsuario")
@@ -54,9 +55,21 @@ class DatosConciertoActivity : AppCompatActivity() {
             startActivity(intent)
         }
         val grupo: TextView = findViewById(R.id.grupoText)
+        grupo.setOnClickListener{
+            val intent = Intent(this@DatosConciertoActivity, GrupoActivity::class.java).apply {
+                putExtra("idGrupo", concierto.grupo.id)
+            }
+            startActivity(intent)
+        }
         val fecha: TextView = findViewById(R.id.fechaText)
         val hora: TextView = findViewById(R.id.horaText)
         val recinto: TextView = findViewById(R.id.recintoText)
+        recinto.setOnClickListener{
+            val intent = Intent(this@DatosConciertoActivity, RecintoActivity::class.java).apply {
+                putExtra("idRecinto", concierto.recinto?.id ?: 0)
+            }
+            startActivity(intent)
+        }
         val ciudad: TextView = findViewById(R.id.ciudadText)
         val imagen: ImageView = findViewById(R.id.conciertoImage)
         val comprarEntradasTexto: TextView = findViewById(R.id.textView4)
@@ -72,6 +85,7 @@ class DatosConciertoActivity : AppCompatActivity() {
                 Log.d("API", "Accediendo llamada a la API")
                 if (response.isSuccessful) {
                     response.body()?.let {
+                        concierto = it
                         tituloConcierto.setText(it.nombre)
 
                         grupo.setText("🎤 ${it.grupo.nombre}")
@@ -126,6 +140,66 @@ class DatosConciertoActivity : AppCompatActivity() {
                 }
             })
         }
+        val guardarButtton: Button = findViewById(R.id.btnFavorito)
+        var guardado = false
+        val conciertosGuardados: ArrayList<Concierto> = ArrayList()
+        apiService.obtenerConciertosGuardados(idUsuario).enqueue(object : Callback<ArrayList<Concierto>> {
+            @SuppressLint("NotifyDataSetChanged")
+            @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            override fun onResponse(call: Call<ArrayList<Concierto>>, response: Response<ArrayList<Concierto>>) {
+                Log.d("API", "Accediendo llamada a la API")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        conciertosGuardados.addAll(it)
+                        for (c in conciertosGuardados){
+                            if (c.id == concierto.id){
+                                guardado = true
+                                guardarButtton.text = "No seguir"
+                            }
+                        }
+                    }
+                } else {
+                    Log.d("API", "ERROR: " + response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Concierto>>, t: Throwable) {
+                Log.d("API", "Fallo llamada a la API: " + t.message)
+                Toast.makeText(this@DatosConciertoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+        guardarButtton.setOnClickListener{
+            if(guardado){
+                apiService.eliminarGuardado(idConcierto, idUsuario).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@DatosConciertoActivity, "Guardado eliminado", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@DatosConciertoActivity, "Error al eliminar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Toast.makeText(this@DatosConciertoActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }else{
+                apiService.guardarConciertoGuardado(idConcierto, idUsuario).enqueue(object : Callback<Int> {
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@DatosConciertoActivity, "Concierto guardado con éxito", Toast.LENGTH_SHORT).show()
+                            // Aquí puedes actualizar UI o recargar datos
+                        } else {
+                            Toast.makeText(this@DatosConciertoActivity, "Error al guardar el concierto", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        Toast.makeText(this@DatosConciertoActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
         if (tipoUsuario != "USER"){
             comprarEntradasTexto.visibility = View.GONE
             normalesTexto.visibility = View.GONE
@@ -133,6 +207,7 @@ class DatosConciertoActivity : AppCompatActivity() {
             spinnerNormales.visibility = View.GONE
             spinnerVips.visibility = View.GONE
             enviarButtton.visibility = View.GONE
+            guardarButtton.visibility = View.GONE
         }
     }
 

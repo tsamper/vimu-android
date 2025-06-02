@@ -6,6 +6,6 @@ data class Recinto(
     val direccion: String = "",
     val ciudad: String = "",
     val telefono: String = "",
-    val email: String = "",
+    val correo: String = "",
     val enlaceMaps: String = ""
 )

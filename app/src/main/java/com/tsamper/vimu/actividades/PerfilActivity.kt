@@ -52,6 +52,7 @@ class PerfilActivity : AppCompatActivity() {
         val email: TextView = findViewById(R.id.emailTextView)
         val tipo: TextView = findViewById(R.id.tipoTextView)
         val idUser = intent.getIntExtra("idUsuario", 0)
+
         val tipoUser = intent.getStringExtra("tipoUsuario")
         val tabLayout = findViewById<TabLayout>(R.id.perfilTabLayout)
         val entradasRV = findViewById<RecyclerView>(R.id.entradasRecyclerView)
@@ -75,7 +76,7 @@ class PerfilActivity : AppCompatActivity() {
         favoritosRV.adapter = adapter
         var opiniones: List<Concierto> = ArrayList()
         opinionesRV.layoutManager = LinearLayoutManager(this)
-        adapterOpinion = OpinionAdapter(emptyList(), this)
+        adapterOpinion = OpinionAdapter(emptyList(), idUser, this)
         opinionesRV.adapter = adapterOpinion
         apiService.obtenerEntradasUsuario(idUser).enqueue(object : Callback<Map<String, List<EntradaConcierto>>> {
             override fun onResponse(

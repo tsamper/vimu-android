@@ -7,6 +7,7 @@ import com.tsamper.vimu.modelo.Ejemplo
 import com.tsamper.vimu.modelo.EntradaConcierto
 import com.tsamper.vimu.modelo.Grupo
 import com.tsamper.vimu.modelo.LoginRequest
+import com.tsamper.vimu.modelo.Opinion
 import com.tsamper.vimu.modelo.Recinto
 import com.tsamper.vimu.modelo.Usuario
 import com.tsamper.vimu.modelo.enums.OpcionesOpinion
@@ -61,6 +62,10 @@ interface ApiService {
     //LLamadas Opiniones
     @POST("opiniones/{idConcierto}/{idUsuario}")
     fun registrarComentario(@Path("idConcierto") idConcierto: Int, @Path("idUsuario") idUsuario: Int, @Query("recomendado") recomendado: OpcionesOpinion, @Body comentario: String): Call<Void>
+    @GET("opiniones/{idConcierto}")
+    fun comprobarComentarioPorUsuarioYConcierto(@Path("idConcierto") idConcierto: Int, @Query("user") userId: Int): Call<Boolean>
+    @GET("opiniones")
+    fun obtenerOpinionesPorGrupo(@Query("grupoId") grupoId: Int): Call<List<Opinion>>
     //Lamadas Recintos
     @GET("recintos/{id}")
     fun obtenerRecintoPorId(@Path("id") id: Int): Call<Recinto>

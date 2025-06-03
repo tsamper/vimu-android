@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,6 +29,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 
 class GrupoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,29 @@ class GrupoActivity : AppCompatActivity() {
         val perfilSpotify: TextView = findViewById(R.id.perfilSpotifyText)
         var enlaceSpotify: String = ""
         val apiService = RetrofitClient.getApiService()
+        val tabLayout = findViewById<TabLayout>(R.id.grupoTabLayout)
+        val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
+        val cancionesRV = findViewById<RecyclerView>(R.id.cancionesRecyclerView)
+        tabLayout.addTab(tabLayout.newTab().setText("Opiniones"))
+        tabLayout.addTab(tabLayout.newTab().setText("Canciones"))
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        opinionesRV.visibility = View.VISIBLE
+                        cancionesRV.visibility = View.GONE
+                    }
+
+                    1 -> {
+                        opinionesRV.visibility = View.GONE
+                        cancionesRV.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
         apiService.obtenerGrupoPorId(idGrupo).enqueue(object : Callback<Grupo> {
             @SuppressLint("NotifyDataSetChanged")
             @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)

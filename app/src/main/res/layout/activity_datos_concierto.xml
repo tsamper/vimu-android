@@ -77,44 +77,44 @@
         app:layout_constraintTop_toBottomOf="@id/tituloConcierto">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:id="@+id/grupoText"
-            android:textSize="20sp"
-            android:text="Artista: Hoke" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Artista: Hoke"
             android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/recintoText"
-            android:textSize="20sp"
-            android:text="Recinto: Garaje Beat Club" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Recinto: Garaje Beat Club"
             android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/fechaText"
-            android:textSize="16sp"
-            android:text="Fecha: 2024-06-27" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha: 2024-06-27"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
             android:id="@+id/horaText"
-            android:textSize="16sp"
-            android:text="Hora: 22:30" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Hora: 22:30"
             android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/ciudadText"
-            android:textSize="16sp"
-            android:text="Ciudad: Murcia" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciudad: Murcia"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <TextView
@@ -122,10 +122,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Comprar entradas"
+        android:text="@string/comprar_entradas"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoBox" />
+
+    <Button
+        android:id="@+id/eliminarBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:text="@string/eliminar_concierto"
+        android:backgroundTint="@color/secondary"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/infoBox" />

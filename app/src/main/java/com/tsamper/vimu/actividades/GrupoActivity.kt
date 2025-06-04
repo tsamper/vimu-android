@@ -29,8 +29,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import com.tsamper.vimu.adaptadores.CancionAdapter
+import com.tsamper.vimu.adaptadores.EntradaConciertoAdapter
+import com.tsamper.vimu.adaptadores.ResenyaAdapter
+import com.tsamper.vimu.modelo.Cancion
+import com.tsamper.vimu.modelo.Opinion
 
 class GrupoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +61,12 @@ class GrupoActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.grupoTabLayout)
         val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
         val cancionesRV = findViewById<RecyclerView>(R.id.cancionesRecyclerView)
+        val opinionesAdapter = ResenyaAdapter(emptyList(), this)
+        opinionesRV.layoutManager = LinearLayoutManager(this)
+        opinionesRV.adapter = opinionesAdapter
+        val cancionesAdapter = CancionAdapter(emptyList(), this)
+        cancionesRV.layoutManager = LinearLayoutManager(this)
+        cancionesRV.adapter = cancionesAdapter
         tabLayout.addTab(tabLayout.newTab().setText("Opiniones"))
         tabLayout.addTab(tabLayout.newTab().setText("Canciones"))
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -130,6 +142,44 @@ class GrupoActivity : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<Grupo>, t: Throwable) {
+                Log.d("API", "Fallo llamada a la API: " + t.message)
+                Toast.makeText(this@GrupoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+        apiService.obtenerOpinionesPorGrupo(idGrupo).enqueue(object : Callback<List<Opinion>> {
+            @SuppressLint("NotifyDataSetChanged")
+            @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            override fun onResponse(call: Call<List<Opinion>>, response: Response<List<Opinion>>) {
+                Log.d("API", "Accediendo llamada a la API")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        opinionesAdapter.actualizarOpiniones(it)
+                    }
+                } else {
+                    Log.d("API", "ERROR: " + response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<List<Opinion>>, t: Throwable) {
+                Log.d("API", "Fallo llamada a la API: " + t.message)
+                Toast.makeText(this@GrupoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+        apiService.obtenerCancionesPorGrupo(idGrupo).enqueue(object : Callback<List<Cancion>> {
+            @SuppressLint("NotifyDataSetChanged")
+            @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            override fun onResponse(call: Call<List<Cancion>>, response: Response<List<Cancion>>) {
+                Log.d("API", "Accediendo llamada a la API")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        cancionesAdapter.actualizarCanciones(it)
+                    }
+                } else {
+                    Log.d("API", "ERROR: " + response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<List<Cancion>>, t: Throwable) {
                 Log.d("API", "Fallo llamada a la API: " + t.message)
                 Toast.makeText(this@GrupoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }

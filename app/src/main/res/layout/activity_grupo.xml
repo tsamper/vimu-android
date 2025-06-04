@@ -158,7 +158,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cancionesRecyclerView"
                 android:layout_width="378dp"
-                android:layout_height="198dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

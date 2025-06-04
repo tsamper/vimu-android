@@ -9,6 +9,6 @@ data class Opinion(
     val grupo: Grupo? = null,
     val concierto: Concierto? = null,
     val comentario: String = "",
-    val fecha: LocalDate? = null,
+    val fecha: String = "",
     val recomendado: OpcionesOpinion? = null
 )

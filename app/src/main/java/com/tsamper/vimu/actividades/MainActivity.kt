@@ -1,11 +1,13 @@
 package com.tsamper.vimu.actividades
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -32,18 +34,32 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var idUser: Int = 0
+        val sharedPreferences = getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
         val usuario: EditText = findViewById(R.id.usuario)
         val password: EditText = findViewById(R.id.password)
         val registro: TextView = findViewById(R.id.registro)
         val login: Button = findViewById(R.id.iniciarBtn)
-        var idUser: Int = 0
+        val checkbox: CheckBox = findViewById(R.id.checkBox)
+        val recordar = sharedPreferences.getBoolean("recordar", false)
+        if (recordar) {
+            idUser = sharedPreferences.getInt("user_id", 0)
+            val tipoUSer = sharedPreferences.getString("user_tipo", "")
+            checkbox.isChecked = true
+            val intent = Intent(this@MainActivity, ConciertosActivity::class.java).apply {
+                putExtra("idUsuario", idUser)
+                putExtra("tipoUsuario", tipoUSer)
+            }
+            startActivity(intent)
+            finish()
+        }
+
         registro.setOnClickListener {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
         login.setOnClickListener {
             var loginRequest = LoginRequest(usuario.text.toString(), password.text.toString())
-            Log.d("eee", "INICIO")
             val apiService = RetrofitClient.getApiService()
             apiService.login(loginRequest).enqueue(object : Callback<Usuario> {
                 @SuppressLint("NotifyDataSetChanged")
@@ -55,6 +71,15 @@ class MainActivity : AppCompatActivity() {
                             Log.d("API", "Cuerpo de la respuesta: ${response.body()}")
                             Log.d("API", "" + it)
                             idUser = it.id
+                            if (checkbox.isChecked) {
+                                sharedPreferences.edit()
+                                    .putInt("user_id", it.id)
+                                    .putString("user_tipo", it.grupoUsuarios.toString())
+                                    .putBoolean("recordar", true)
+                                    .apply()
+                            } else {
+                            sharedPreferences.edit().clear().apply()
+                        }
                             val intent = Intent(this@MainActivity, ConciertosActivity::class.java).apply {
                                 putExtra("idUsuario", idUser)
                                 putExtra("tipoUsuario", it.grupoUsuarios?.tipo.toString() )

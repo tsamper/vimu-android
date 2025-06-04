@@ -46,6 +46,10 @@ class DatosConciertoActivity : AppCompatActivity() {
         val idUsuario = intent.getIntExtra("idUsuario", 0)
         val tipoUsuario = intent.getStringExtra("tipoUsuario")
         val tituloConcierto: TextView = findViewById(R.id.tituloConcierto)
+        val eliminarBtn: Button = findViewById(R.id.eliminarBtn)
+        eliminarBtn.setOnClickListener{
+            
+        }
         val perfilButton: ImageButton = findViewById(R.id.profileButton)
         perfilButton.setOnClickListener{
             val intent = Intent(this@DatosConciertoActivity, PerfilActivity::class.java).apply {
@@ -208,6 +212,7 @@ class DatosConciertoActivity : AppCompatActivity() {
             spinnerVips.visibility = View.GONE
             enviarButtton.visibility = View.GONE
             guardarButtton.visibility = View.GONE
+            eliminarBtn.visibility = View.VISIBLE
         }
     }
 

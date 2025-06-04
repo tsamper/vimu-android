@@ -35,7 +35,7 @@ interface ApiService {
     fun registrarUsuario(@Body usuario: Usuario): Call<Usuario>
     //Llamadas Canciones
     @GET("canciones")
-    fun obtenerCancionesPorGrupo(@Query("grupoId") grupoId: Int): List<Cancion>
+    fun obtenerCancionesPorGrupo(@Query("grupoId") grupoId: Int): Call<List<Cancion>>
     //Llamadas Conciertos
     @GET("conciertos")
     fun obtenerConciertos(): Call<ArrayList<Concierto>>

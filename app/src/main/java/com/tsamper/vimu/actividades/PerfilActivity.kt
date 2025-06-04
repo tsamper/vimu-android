@@ -1,6 +1,7 @@
 package com.tsamper.vimu.actividades
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -172,8 +173,10 @@ class PerfilActivity : AppCompatActivity() {
         }else{
             tabLayout.addTab(tabLayout.newTab().setText("Mis conciertos"))
         }
+        val sharedPreferences = getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
         val cerrarSesionButton: Button = findViewById(R.id.cerrarSesionButton)
         cerrarSesionButton.setOnClickListener{
+            sharedPreferences.edit().clear().apply()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

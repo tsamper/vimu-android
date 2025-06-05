@@ -59,6 +59,7 @@ class PerfilActivity : AppCompatActivity() {
         val entradasRV = findViewById<RecyclerView>(R.id.entradasRecyclerView)
         val favoritosRV = findViewById<RecyclerView>(R.id.favoritosRecyclerView)
         val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
+        val promotorRV = findViewById<RecyclerView>(R.id.promotorRecyclerView)
         val apiService = RetrofitClient.getApiService()
 
         entradasRV.layoutManager = LinearLayoutManager(this)
@@ -75,10 +76,12 @@ class PerfilActivity : AppCompatActivity() {
             startActivity(intent)
         }
         favoritosRV.adapter = adapter
-        var opiniones: List<Concierto> = ArrayList()
+        var opiniones: List<Concierto>
         opinionesRV.layoutManager = LinearLayoutManager(this)
         adapterOpinion = OpinionAdapter(emptyList(), idUser, this)
         opinionesRV.adapter = adapterOpinion
+        promotorRV.layoutManager = GridLayoutManager(this, 2)
+        promotorRV.adapter = adapter
         apiService.obtenerEntradasUsuario(idUser).enqueue(object : Callback<Map<String, List<EntradaConcierto>>> {
             override fun onResponse(
                 call: Call<Map<String, List<EntradaConcierto>>>,
@@ -172,6 +175,29 @@ class PerfilActivity : AppCompatActivity() {
             })
         }else{
             tabLayout.addTab(tabLayout.newTab().setText("Mis conciertos"))
+            promotorRV.visibility = View.VISIBLE
+            apiService.obtenerConciertosPorPromotor(idUser).enqueue(object : Callback<List<Concierto>> {
+                @SuppressLint("NotifyDataSetChanged")
+                @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+                override fun onResponse(call: Call<List<Concierto>>, response: Response<List<Concierto>>) {
+                    Log.d("API", "Accediendo llamada a la API")
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            adapter.actualizarConciertos(it)
+                        }
+                    } else {
+                        Log.d("API", "ERROR: " + response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Concierto>>, t: Throwable) {
+                    Log.d("API", "Fallo llamada a la API: " + t.message)
+                    Toast.makeText(this@PerfilActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
+
         }
         val sharedPreferences = getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
         val cerrarSesionButton: Button = findViewById(R.id.cerrarSesionButton)

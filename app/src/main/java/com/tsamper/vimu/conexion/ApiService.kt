@@ -11,24 +11,23 @@ import com.tsamper.vimu.modelo.Opinion
 import com.tsamper.vimu.modelo.Recinto
 import com.tsamper.vimu.modelo.Usuario
 import com.tsamper.vimu.modelo.enums.OpcionesOpinion
-import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    //@Headers("Accept: application/json")
     @GET("demo")
     fun ejemplo(): Call<Ejemplo>
     //Llamadas Usuarios
     @GET("usuarios/{id}")
     fun obtenerUsuarioPorId(@Path("id") id: Int): Call<Usuario>
+    @GET("usuarios/{id}")
+    suspend fun obtenerUsuarioPorIdSuspend(@Path("id") id: Int): Usuario
     @POST("usuarios/buscar")
     fun login(@Body login: LoginRequest): Call<Usuario>
     @POST("usuarios")
@@ -39,6 +38,8 @@ interface ApiService {
     //Llamadas Conciertos
     @GET("conciertos")
     fun obtenerConciertos(): Call<ArrayList<Concierto>>
+    @GET("conciertos/promotor/")
+    fun obtenerConciertosPorPromotor(@Query("promotor") userId: Int): Call<List<Concierto>>
     @GET("conciertos/filtro")
     fun buscarConciertos(@Query("filtro") filtro: String, @Query("campo") campo: String): Call<ArrayList<Concierto>>
     @GET("conciertos/{id}")
@@ -53,12 +54,20 @@ interface ApiService {
     fun eliminarGuardado(@Path("idConcierto") idConcierto: Int, @Query("user") userId: Int): Call<Void>
     @GET("conciertos/old")
     fun obtenerConciertosAnteriores(@Query("user") userId: Int): Call<Map<String, List<Concierto>>>
+    @DELETE("conciertos/{id}")
+    fun eliminarConcierto(@Path("id") id: Int): Call<Void>
+    @POST("conciertos")
+    suspend fun registrarConcierto(@Body concierto: Concierto, @Query("user") userId: Int): Response<Void>
     //Llamadas Entradas
     @GET("entradas")
     fun obtenerEntradasUsuario(@Query("user") userId: Int): Call<Map<String, List<EntradaConcierto>>>
     //Llamadas Grupos
     @GET("grupos/{id}")
     fun obtenerGrupoPorId(@Path("id") id: Int): Call<Grupo>
+    @GET("grupos")
+    fun obtenerGrupos(): Call<List<Grupo>>
+    @GET("grupos/nombre/{nombre}")
+    suspend fun obtenerGrupoPorNombre(@Path("nombre") id: String): Grupo
     //LLamadas Opiniones
     @POST("opiniones/{idConcierto}/{idUsuario}")
     fun registrarComentario(@Path("idConcierto") idConcierto: Int, @Path("idUsuario") idUsuario: Int, @Query("recomendado") recomendado: OpcionesOpinion, @Body comentario: String): Call<Void>
@@ -67,6 +76,10 @@ interface ApiService {
     @GET("opiniones")
     fun obtenerOpinionesPorGrupo(@Query("grupoId") grupoId: Int): Call<List<Opinion>>
     //Lamadas Recintos
+    @GET("recintos")
+    fun obtenerRecintos(): Call<List<Recinto>>
     @GET("recintos/{id}")
     fun obtenerRecintoPorId(@Path("id") id: Int): Call<Recinto>
+    @GET("recintos/nombre/{nombre}")
+    suspend fun obtenerRecintoPorNombre(@Path("nombre") nombre: String): Recinto
 }

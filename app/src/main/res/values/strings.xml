@@ -27,4 +27,17 @@
     <string name="rese_ar">Reseñar</string>
     <string name="eliminar_concierto">Eliminar concierto</string>
     <string name="comprar_entradas">Comprar entradas</string>
+    <string name="nuevo_concierto">Nuevo concierto</string>
+    <string name="buscar">Buscar</string>
+    <string name="buscar_conciertos">Buscar conciertos</string>
+    <string name="perfil">Perfil</string>
+    <string name="logo">Logo</string>
+    <string name="hora">Hora</string>
+    <string name="fecha">Fecha</string>
+    <string name="cantidad_entradas">Cantidad entradas</string>
+    <string name="precio_entradas">Precio entradas</string>
+    <string name="cantidad_entradas_vip">Cantidad entradas VIP</string>
+    <string name="precio_entradas_vip">Precio entradas VIP</string>
+    <string name="grupo">Grupo</string>
+    <string name="recinto">Recinto</string>
 </resources>

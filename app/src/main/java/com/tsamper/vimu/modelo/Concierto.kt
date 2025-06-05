@@ -12,10 +12,10 @@ data class Concierto (
     val hora: String = "",
     val cantidadEntradasVip: Int = 0,
     val cantidadEntradasVipVendidas: Int = 0,
-    val precioEntradasVip: Int = 0,
+    val precioEntradasVip: Double = 0.0,
     val cantidadEntradas: Int = 0,
     val cantidadEntradasVendidas: Int = 0,
-    val precioEntradas: Int = 0,
+    val precioEntradas: Double = 0.0,
     val promotor: Usuario = Usuario(),
     val grupo: Grupo = Grupo()
     )

@@ -41,15 +41,68 @@ class DatosConciertoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val apiService = RetrofitClient.getApiService()
         var concierto = Concierto()
         val idConcierto = intent.getIntExtra("idConcierto", 0)
         val idUsuario = intent.getIntExtra("idUsuario", 0)
         val tipoUsuario = intent.getStringExtra("tipoUsuario")
+        val conciertos: ArrayList<Concierto> = ArrayList()
         val tituloConcierto: TextView = findViewById(R.id.tituloConcierto)
         val eliminarBtn: Button = findViewById(R.id.eliminarBtn)
-        eliminarBtn.setOnClickListener{
-            
-        }
+        var pertenece: Boolean = false
+        apiService.obtenerConciertosPorPromotor(idUsuario).enqueue(object : Callback<List<Concierto>> {
+            @SuppressLint("NotifyDataSetChanged")
+            @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            override fun onResponse(call: Call<List<Concierto>>, response: Response<List<Concierto>>) {
+                Log.d("API", "Accediendo llamada a la API")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        conciertos.addAll(it)
+                    }
+                    for (conc in conciertos){
+                        if (conc.id == idConcierto){
+                            pertenece = true
+                        }
+                    }
+                    if (pertenece){
+                        eliminarBtn.setOnClickListener{
+                            apiService.eliminarConcierto(idConcierto).enqueue(object : Callback<Void> {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+                                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                    Log.d("API", "Accediendo llamada a la API")
+                                    if (response.isSuccessful) {
+                                        Toast.makeText(this@DatosConciertoActivity, "Concierto eliminado con éxito", Toast.LENGTH_SHORT).show()
+                                        val intent = Intent(this@DatosConciertoActivity, ConciertosActivity::class.java).apply {
+                                            putExtra("idUsuario", idUsuario)
+                                            putExtra("tipoUsuario", tipoUsuario)
+                                        }
+                                        startActivity(intent)
+                                    } else {
+                                        Log.d("API", "ERROR: " + response.message())
+                                    }
+                                }
+                                override fun onFailure(call: Call<Void>, t: Throwable) {
+                                    Log.d("API", "Fallo llamada a la API: " + t.message)
+                                    Toast.makeText(this@DatosConciertoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        }
+                    }else{
+                        eliminarBtn.isEnabled = false
+                        eliminarBtn.alpha = 0.5f
+                    }
+                } else {
+                    Log.d("API", "ERROR: " + response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<List<Concierto>>, t: Throwable) {
+                Log.d("API", "Fallo llamada a la API: " + t.message)
+                Toast.makeText(this@DatosConciertoActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         val perfilButton: ImageButton = findViewById(R.id.profileButton)
         perfilButton.setOnClickListener{
             val intent = Intent(this@DatosConciertoActivity, PerfilActivity::class.java).apply {
@@ -81,7 +134,6 @@ class DatosConciertoActivity : AppCompatActivity() {
         val vipTexto: TextView = findViewById(R.id.vipTextView)
         val spinnerNormales: Spinner = findViewById(R.id.spinnerNormales)
         val spinnerVips: Spinner = findViewById(R.id.spinnerVips)
-        val apiService = RetrofitClient.getApiService()
         apiService.obtenerConciertoPorId(idConcierto).enqueue(object : Callback<Concierto> {
             @SuppressLint("NotifyDataSetChanged")
             @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)

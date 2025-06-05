@@ -22,7 +22,7 @@
             android:id="@+id/logoImage"
             android:layout_width="157dp"
             android:layout_height="53dp"
-            android:contentDescription="Logo"
+            android:contentDescription="@string/logo"
             android:src="@drawable/logo1" />
 
         <View
@@ -35,7 +35,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@null"
-            android:contentDescription="Perfil"
+            android:contentDescription="@string/perfil"
             android:src="@drawable/perfil" />
     </LinearLayout>
     <LinearLayout
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="Buscar conciertos"
+            android:hint="@string/buscar_conciertos"
             android:padding="8dp" />
 
         <Spinner
@@ -69,9 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/secondary"
-            android:text="Buscar"
+            android:text="@string/buscar"
             android:textColor="@color/black" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="394dp"
@@ -80,5 +81,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+
+    <Button
+        android:id="@+id/nuevoConciertoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nuevo_concierto"
+        android:backgroundTint="@color/secondary"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        tools:layout_editor_absoluteX="134dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

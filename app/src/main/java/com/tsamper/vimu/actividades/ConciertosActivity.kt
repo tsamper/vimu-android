@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -44,6 +45,17 @@ class ConciertosActivity : AppCompatActivity() {
         val perfilButton: ImageButton = findViewById(R.id.profileButton)
         perfilButton.setOnClickListener{
             val intent = Intent(this@ConciertosActivity, PerfilActivity::class.java).apply {
+                putExtra("idUsuario", idUser)
+                putExtra("tipoUsuario", tipoUser)
+            }
+            startActivity(intent)
+        }
+        val nuevoConciertoBtn: Button = findViewById(R.id.nuevoConciertoBtn)
+        if (tipoUser == "USER"){
+            nuevoConciertoBtn.visibility = View.GONE
+        }
+        nuevoConciertoBtn.setOnClickListener{
+            val intent = Intent(this@ConciertosActivity, NuevoConciertoActivity::class.java).apply {
                 putExtra("idUsuario", idUser)
                 putExtra("tipoUsuario", tipoUser)
             }

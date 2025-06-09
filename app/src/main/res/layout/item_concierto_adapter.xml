@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@color/white"
             android:text=""
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -35,6 +36,7 @@
             android:id="@+id/fechaText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text=""
             android:textSize="14sp" />
     </LinearLayout>

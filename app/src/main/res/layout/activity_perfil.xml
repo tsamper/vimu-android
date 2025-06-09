@@ -10,15 +10,19 @@
     tools:context=".actividades.PerfilActivity">
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="383dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
-        <ImageView
+
+    <ImageView
             android:id="@+id/logoImage"
             android:layout_width="157dp"
             android:layout_height="53dp"
@@ -101,7 +105,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/entradasRecyclerView"
         android:layout_width="374dp"
-        android:layout_height="353dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,34 +116,37 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/promotorRecyclerView"
         android:layout_width="374dp"
-        android:layout_height="353dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cerrarSesionButton"
         app:layout_constraintTop_toBottomOf="@+id/perfilTabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favoritosRecyclerView"
         android:layout_width="374dp"
-        android:layout_height="353dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cerrarSesionButton"
         app:layout_constraintTop_toBottomOf="@+id/perfilTabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/opinionesRecyclerView"
         android:layout_width="374dp"
-        android:layout_height="353dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cerrarSesionButton"
         app:layout_constraintTop_toBottomOf="@+id/perfilTabLayout" />
 
     <Button

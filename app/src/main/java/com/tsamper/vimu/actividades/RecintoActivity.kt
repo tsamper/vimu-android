@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -37,12 +38,22 @@ class RecintoActivity : AppCompatActivity() {
             insets
         }
         val idRecinto = intent.getIntExtra("idRecinto", 0)
+        val idUsuario = intent.getIntExtra("idUsuario", 0)
+        val tipoUsuario = intent.getStringExtra("tipoUsuario")
         val nombreRecinto: TextView = findViewById(R.id.nombreRecinto)
         val direccion: TextView = findViewById(R.id.direccionText)
         val ciudad: TextView = findViewById(R.id.ciudadText)
         val telefono: TextView = findViewById(R.id.telefonoText)
         val correo: TextView = findViewById(R.id.correoText)
         val enlaceMaps: TextView = findViewById(R.id.enlaceMapsText)
+        val perfilButton: ImageButton = findViewById(R.id.profileButton)
+        perfilButton.setOnClickListener{
+            val intent = Intent(this@RecintoActivity, PerfilActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         var maps: String = ""
         val apiService = RetrofitClient.getApiService()
         apiService.obtenerRecintoPorId(idRecinto).enqueue(object : Callback<Recinto> {
@@ -79,13 +90,13 @@ class RecintoActivity : AppCompatActivity() {
                         val correoText = SpannableStringBuilder().apply {
                             append("Correo: ")
                             setSpan(StyleSpan(Typeface.BOLD), 0, length, 0)
-                            append("${it.correo}")
+                            append("${it.email}")
                         }
                         correo.text = correoText
                         val enlaceText = SpannableStringBuilder().apply {
                             append("Enlace Maps: ")
                             setSpan(StyleSpan(Typeface.BOLD), 0, length, 0)
-                            append("${it.enlaceMaps}")
+                            append("Abrir en Maps")
                         }
                         maps = it.enlaceMaps
                         enlaceMaps.text = enlaceText

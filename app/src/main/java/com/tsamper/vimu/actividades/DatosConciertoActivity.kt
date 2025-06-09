@@ -115,6 +115,8 @@ class DatosConciertoActivity : AppCompatActivity() {
         grupo.setOnClickListener{
             val intent = Intent(this@DatosConciertoActivity, GrupoActivity::class.java).apply {
                 putExtra("idGrupo", concierto.grupo.id)
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
             }
             startActivity(intent)
         }
@@ -124,6 +126,8 @@ class DatosConciertoActivity : AppCompatActivity() {
         recinto.setOnClickListener{
             val intent = Intent(this@DatosConciertoActivity, RecintoActivity::class.java).apply {
                 putExtra("idRecinto", concierto.recinto?.id ?: 0)
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
             }
             startActivity(intent)
         }

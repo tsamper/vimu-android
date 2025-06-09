@@ -11,11 +11,16 @@
 
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="383dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="15dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
         <ImageView
             android:id="@+id/logoImage"
@@ -44,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,12 +62,11 @@
                 android:id="@+id/grupoImage"
                 android:layout_width="226dp"
                 android:layout_height="285dp"
-                android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topBar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
@@ -135,29 +139,28 @@
                 android:layout_width="376dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.457"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/infoBox"
-                android:backgroundTint="@color/primary"
                 app:tabIndicatorColor="@color/black"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/opinionesRecyclerView"
-                android:layout_width="378dp"
-                android:layout_height="198dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/grupoTabLayout" />
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cancionesRecyclerView"
-                android:layout_width="378dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"

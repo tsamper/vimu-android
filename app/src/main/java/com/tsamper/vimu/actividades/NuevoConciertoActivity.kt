@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -54,6 +55,14 @@ class NuevoConciertoActivity : AppCompatActivity() {
         val cantidadEntradasVip: EditText = findViewById(R.id.cantidadEntradasVip)
         val precioEntradasVip: EditText = findViewById(R.id.precioEntradasVip)
         val registrarBtn: Button = findViewById(R.id.registrarBtn)
+        val perfilButton: ImageButton = findViewById(R.id.profileButton)
+        perfilButton.setOnClickListener{
+            val intent = Intent(this@NuevoConciertoActivity, PerfilActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         val grupos: ArrayList<String> = ArrayList()
         val recintos: ArrayList<String> = ArrayList()
         apiService.obtenerGrupos().enqueue(object : Callback<List<Grupo>> {

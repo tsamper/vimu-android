@@ -11,6 +11,7 @@ import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -49,6 +50,8 @@ class GrupoActivity : AppCompatActivity() {
             insets
         }
         val idGrupo = intent.getIntExtra("idGrupo", 0)
+        val idUsuario = intent.getIntExtra("idUsuario", 0)
+        val tipoUsuario = intent.getStringExtra("tipoUsuario")
         val imagen: ImageView = findViewById(R.id.grupoImage)
         val nombreGrupo: TextView = findViewById(R.id.nombreGrupo)
         val descripcion: TextView = findViewById(R.id.descripcionText)
@@ -67,6 +70,14 @@ class GrupoActivity : AppCompatActivity() {
         val cancionesAdapter = CancionAdapter(emptyList(), this)
         cancionesRV.layoutManager = LinearLayoutManager(this)
         cancionesRV.adapter = cancionesAdapter
+        val perfilButton: ImageButton = findViewById(R.id.profileButton)
+        perfilButton.setOnClickListener{
+            val intent = Intent(this@GrupoActivity, PerfilActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         tabLayout.addTab(tabLayout.newTab().setText("Opiniones"))
         tabLayout.addTab(tabLayout.newTab().setText("Canciones"))
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -128,7 +139,7 @@ class GrupoActivity : AppCompatActivity() {
                         val perfilText = SpannableStringBuilder().apply {
                             append("Perfil Spotify: ")
                             setSpan(StyleSpan(Typeface.BOLD), 0, length, 0)
-                            append("${it.perfilSpotify}")
+                            append("Abrir en Spotify")
                         }
                         perfilSpotify.text = perfilText
                         val imagenUrl = VariablesGlobales.conexion + "/" + it.imagen

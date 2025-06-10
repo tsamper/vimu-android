@@ -61,6 +61,14 @@ class GrupoActivity : AppCompatActivity() {
         val perfilSpotify: TextView = findViewById(R.id.perfilSpotifyText)
         var enlaceSpotify: String = ""
         val apiService = RetrofitClient.getApiService()
+        val logo: ImageView = findViewById(R.id.logoImage)
+        logo.setOnClickListener{
+            val intent = Intent(this@GrupoActivity, ConciertosActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         val tabLayout = findViewById<TabLayout>(R.id.grupoTabLayout)
         val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
         val cancionesRV = findViewById<RecyclerView>(R.id.cancionesRecyclerView)

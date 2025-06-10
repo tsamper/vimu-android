@@ -49,6 +49,14 @@ class DatosConciertoActivity : AppCompatActivity() {
         val conciertos: ArrayList<Concierto> = ArrayList()
         val tituloConcierto: TextView = findViewById(R.id.tituloConcierto)
         val eliminarBtn: Button = findViewById(R.id.eliminarBtn)
+        val logo: ImageView = findViewById(R.id.logoImage)
+        logo.setOnClickListener{
+            val intent = Intent(this@DatosConciertoActivity, ConciertosActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         var pertenece: Boolean = false
         apiService.obtenerConciertosPorPromotor(idUsuario).enqueue(object : Callback<List<Concierto>> {
             @SuppressLint("NotifyDataSetChanged")

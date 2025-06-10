@@ -25,7 +25,6 @@ class RetrofitClient {
                 .addInterceptor { chain ->
                     val originalRequest = chain.request()
                     val authenticatedRequest = originalRequest.newBuilder()
-                        //.header("Authorization", Credentials.basic(VariablesGlobales.usuario, VariablesGlobales.password))
                         .header("Content-Type", "application/json")
                         .build()
                     chain.proceed(authenticatedRequest)
@@ -37,7 +36,7 @@ class RetrofitClient {
             return Retrofit.Builder()
 
                 .baseUrl(VariablesGlobales.conexion)
-                .client(client) // Reutiliza el mismo cliente para optimizar
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)

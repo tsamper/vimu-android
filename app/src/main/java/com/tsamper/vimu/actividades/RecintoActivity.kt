@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -46,6 +47,14 @@ class RecintoActivity : AppCompatActivity() {
         val telefono: TextView = findViewById(R.id.telefonoText)
         val correo: TextView = findViewById(R.id.correoText)
         val enlaceMaps: TextView = findViewById(R.id.enlaceMapsText)
+        val logo: ImageView = findViewById(R.id.logoImage)
+        logo.setOnClickListener{
+            val intent = Intent(this@RecintoActivity, ConciertosActivity::class.java).apply {
+                putExtra("idUsuario", idUsuario)
+                putExtra("tipoUsuario", tipoUsuario)
+            }
+            startActivity(intent)
+        }
         val perfilButton: ImageButton = findViewById(R.id.profileButton)
         perfilButton.setOnClickListener{
             val intent = Intent(this@RecintoActivity, PerfilActivity::class.java).apply {

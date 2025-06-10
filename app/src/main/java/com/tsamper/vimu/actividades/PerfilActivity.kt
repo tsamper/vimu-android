@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -61,6 +62,14 @@ class PerfilActivity : AppCompatActivity() {
         val opinionesRV = findViewById<RecyclerView>(R.id.opinionesRecyclerView)
         val promotorRV = findViewById<RecyclerView>(R.id.promotorRecyclerView)
         val apiService = RetrofitClient.getApiService()
+        val logo: ImageView = findViewById(R.id.logoImage)
+        logo.setOnClickListener{
+            val intent = Intent(this@PerfilActivity, ConciertosActivity::class.java).apply {
+                putExtra("idUsuario", idUser)
+                putExtra("tipoUsuario", tipoUser)
+            }
+            startActivity(intent)
+        }
 
         entradasRV.layoutManager = LinearLayoutManager(this)
         entradasRV.adapter = EntradaConciertoAdapter(emptyList(), this)
